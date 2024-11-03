@@ -1,0 +1,284 @@
+Description
+Echoes of the Pendant is an interactive character-driven adventure game thta immerses players in the enchanting world of a quaint village and the mysterious Whispering Woods. Players take on the role of Elara, a young 
+herbalist tasked with finding her grandmothers lost heirloom---a pendant believed to posses magical properties that protect their community.
+
+Features 
+Rich Storyline: An engaging narrative that unfolds through Elara’s journey, filled with lore, personal growth, and community themes.
+Character Development: Players will experience Elara's growth through choices that affect her relationships with friends and villagers, enhancing the emotional depth of the story.
+Exploration: A beautifully crafted world, including the village, Whispering Woods, and ancient groves, encouraging players to explore hidden areas and discover secrets.
+Puzzles and Challenges: A variety of puzzles that incorporate local legends and nature-based challenges, requiring critical thinking and creativity to solve.
+Magical Creatures: Encounters with whimsical creatures, each with unique traits and abilities that influence gameplay and narrative outcomes.
+Inventory System: Collect herbs, items, and clues to aid in puzzles and character interactions, enhancing the survival and exploration aspects.
+Sound and Visual Design: Immersive soundscapes and vibrant visuals that bring the world to life, creating an enchanting atmosphere.
+
+Tools/Technologies
+Programming Language: Python: Ideal for prototyping and developing the game logic, especially for a text-based or simple graphical game.
+Game Development Framework: Pygame: A popular library for making games in Python, allowing for graphics, sound, and user input handling.
+Version Control: Git: For tracking changes and collaborating (if working in a team). Platforms like GitHub or GitLab can be used to host the repository.
+Graphics Design: GIMP or Inkscape: For creating and editing game assets like characters, backgrounds, and UI elements.
+Sound Design: Audacity: For editing audio files, including background music and sound effects.
+File Handling: JSON: For saving and loading game data, such as player progress, inventory items, and character states.
+Documentation: Markdown: For writing the README file and other project documentation, making it easy to format and share.
+IDE/Text Editor: Visual Studio Code or PyCharm: Powerful IDEs that support Python development with features like debugging, syntax highlighting, and extensions.
+
+FLowchart
+Start: 
+Initialize game
+
+User Login:
+Input username/password
+If valid --> Proceed to Main Menu
+If invalid --> Prompt for retry
+
+Main Menu:
+Options
+Start New Game
+Load Existing Game
+View Instructions
+Exit
+
+Start New Game:
+Initialize player character (Elara)
+Set initial game state
+Begin Quest (Enter Game World)
+
+Game World:
+Exploration
+Move through locations (village, woods, etc.)
+Encounter characters and objects
+Solve puzzles or challenges
+
+Character Interaction:
+Dialogue choices with NPCs
+Form relationships and gather information
+
+Inventory Management:
+Collect items and herbs
+Use items for puzzles or interactions
+Check inventory status
+
+Puzzles/Challenges:
+Solve to progress in the story
+Different outcomes based on player choices
+
+Encounter Magical Creatures:
+Interact or battle based on story path
+Obtain unique items or information
+
+Climatic Events:
+Find the pendant in the ancient grove
+Face the guardian spirit
+Make key decisions that affect the ending
+
+End Game:
+Show final outcomes based on player choices
+Prompt for saving progress or restarting
+
+Exit:
+Save game data
+Close application
+
+Milestones:
+
+Milestone 1: Project Setup and Initial Research (2 days)
+
+Set up the project repository with Git.
+Research game mechanics and design principles.
+Create an initial design document outlining core gameplay elements.
+
+Milestone 2: User Authentication System (3 days)
+
+Implement a simple user login system.
+Create a mechanism to save user credentials securely (e.g., using JSON).
+Test login functionality to ensure user data is handled correctly.
+
+Milestone 3: Game Initialization (3 days)
+
+Develop the main menu interface (Start New Game, Load Game, Instructions, Exit).
+Implement functionality to start a new game and load existing game data.
+Set up the initial game state and player character (Elara).
+
+Milestone 4: Exploration Mechanics (4 days)
+
+Create the game world with multiple locations (village, woods, ancient grove).
+Implement movement controls to navigate between locations.
+Design basic environmental interactions (e.g., gathering herbs).
+
+Milestone 5: Character Interactions and Dialogue System (4 days)
+
+Develop a dialogue system for interacting with NPCs.
+Implement branching dialogue choices that affect relationships.
+Create character profiles for key villagers and their backstories.
+
+Milestone 6: Puzzle Development (4 days)
+
+Design various puzzles and challenges related to the storyline.
+Implement puzzle mechanics and integrate them into the game world.
+Ensure puzzles require critical thinking and relate to character interactions.
+
+Milestone 7: Encounter Magical Creatures (3 days)
+
+Design magical creatures with unique traits and interactions.
+Create encounter scenarios that can lead to battles or cooperation.
+Implement creature behavior and item rewards.
+
+Milestone 8: Climax and Resolution Development (4 days)
+
+Create the climactic event involving the guardian spirit and the pendant.
+Design multiple outcomes based on player choices leading to the ending.
+Implement a system for saving progress and outcomes.
+
+Milestone 9: Testing and Debugging (4 days)
+
+Conduct playtesting to identify bugs and gather feedback.
+Implement error handling for user inputs and game logic.
+Refine gameplay mechanics based on tester feedback.
+
+Milestone 10: Finalization and Documentation (3 days)
+
+Finalize the game, ensuring all features are implemented and functional.
+Create a README file with installation instructions, game controls, and story overview.
+Prepare a demonstration video or presentation (if required).
+
+Imlementaion Phase (The Code)
+
+import pygame
+import json
+
+# Initialize Pygame
+pygame.init()
+
+# Screen dimensions
+SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Echoes of the Pendant")
+
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Load user data
+def load_user_data():
+    try:
+        with open('user_data.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {"username": "", "inventory": []}
+
+def save_user_data(user_data):
+    with open('user_data.json', 'w') as f:
+        json.dump(user_data, f)
+
+# User login function
+def login():
+    username = input("Enter your username: ")
+    return username
+
+# Main menu
+def main_menu(user_data):
+    menu_running = True
+    while menu_running:
+        screen.fill(WHITE)
+        font = pygame.font.Font(None, 74)
+        text = font.render("Echoes of the Pendant", True, BLACK)
+        screen.blit(text, (100, 100))
+
+        font = pygame.font.Font(None, 36)
+        start_text = font.render("1. Start New Game", True, BLACK)
+        load_text = font.render("2. Load Game", True, BLACK)
+        exit_text = font.render("3. Exit", True, BLACK)
+
+        screen.blit(start_text, (100, 200))
+        screen.blit(load_text, (100, 250))
+        screen.blit(exit_text, (100, 300))
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                menu_running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    user_data['username'] = login()
+                    return 'new_game'
+                elif event.key == pygame.K_2:
+                    print("Load Game feature not implemented yet.")
+                elif event.key == pygame.K_3:
+                    menu_running = False
+
+        pygame.display.flip()
+
+# Game world locations
+locations = {
+    "village": "You are in the village.",
+    "woods": "You are in the Whispering Woods.",
+}
+
+current_location = "village"
+
+def explore():
+    global current_location
+    screen.fill(WHITE)
+    font = pygame.font.Font(None, 36)
+    location_text = font.render(locations[current_location], True, BLACK)
+    screen.blit(location_text, (20, 20))
+
+    # Simple movement controls
+    controls_text = font.render("Press 'W' to go to Woods, 'V' to go to Village", True, BLACK)
+    screen.blit(controls_text, (20, 100))
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            return False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_w:
+                current_location = "woods"
+            elif event.key == pygame.K_v:
+                current_location = "village"
+
+    return True
+
+def main():
+    user_data = load_user_data()
+    if not user_data['username']:
+        user_data['username'] = login()
+
+    while True:
+        game_mode = main_menu(user_data)
+        if game_mode == 'new_game':
+            user_data['inventory'] = []  # Reset inventory for a new game
+            game_running = True
+            while game_running:
+                game_running = explore()
+                pygame.display.flip()
+        else:
+            break
+
+    save_user_data(user_data)
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()
+
+Testing and Debugging:
+
+Have minor issues and currently working to get those ficed, I can't get the code to respond properly to start the game. (Won't load up/respond)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
